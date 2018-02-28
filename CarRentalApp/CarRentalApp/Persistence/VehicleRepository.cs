@@ -31,5 +31,20 @@ namespace CarRentalApp.Persistence
                 .Include(m => m.Model)
                     .ThenInclude(m => m.Make).ToListAsync();
         }
+
+        public async Task<Vehicle> GetVehicle(int id)
+        {
+            return await _context.Vehicles
+                .Include(v => v.VehicleFeatures)
+                    .ThenInclude(vf => vf.Feature)
+                .Include(v => v.Model)
+                    .ThenInclude(m => m.Make)
+                .SingleOrDefaultAsync(v => v.Id == id);
+        }
+
+        public async Task AddVehicle(Vehicle vehicle)
+        {
+            await _context.AddAsync(vehicle);
+        }
     }
 }

@@ -10,16 +10,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApp.Controllers
 {
-    [Route("/api/vehicles/")]
+    [Route("/api/vehicles")]
     public class VehiclesController : Controller
     {
         private readonly IMapper _mapper;
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VehiclesController(IMapper mapper, IVehicleRepository vehicleRepository)
+        public VehiclesController(IMapper mapper, IVehicleRepository vehicleRepository, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _vehicleRepository = vehicleRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -28,6 +30,40 @@ namespace CarRentalApp.Controllers
             var vehicles = await _vehicleRepository.GetAllVehicles();
 
             return _mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var vehicle = _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
+            vehicle.Creationdate = DateTime.Now;
+            await _vehicleRepository.AddVehicle(vehicle);
+            await _unitOfWork.CompleteAsync();
+
+            vehicle = await _vehicleRepository.GetVehicle(vehicle.Id);
+
+            return Ok(_mapper.Map<Vehicle, VehicleResource>(vehicle));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource saveVehicleResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var vehicle = await _vehicleRepository.GetVehicle(id);
+
+            if (vehicle == null)
+                return NotFound();
+
+            _mapper.Map<SaveVehicleResource, Vehicle>(saveVehicleResource, vehicle);
+
+            await _unitOfWork.CompleteAsync();
+            vehicle = await _vehicleRepository.GetVehicle(vehicle.Id);
+
+            return Ok(_mapper.Map<Vehicle, VehicleResource>(vehicle));
         }
     }
 }

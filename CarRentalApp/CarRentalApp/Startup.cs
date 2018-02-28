@@ -37,6 +37,7 @@ namespace CarRentalApp
             #region DependencyInjection
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             #endregion DependencyInjection
 

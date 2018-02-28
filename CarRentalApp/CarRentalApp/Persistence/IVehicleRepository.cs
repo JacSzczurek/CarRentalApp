@@ -9,5 +9,10 @@ namespace CarRentalApp.Persistence
         Task<List<Make>> GetMakesWithModels();
 
         Task<List<Vehicle>> GetAllVehicles();
+
+        Task AddVehicle(Vehicle vehicle);
+
+        Task<Vehicle> GetVehicle(int id);
+
     }
 }
