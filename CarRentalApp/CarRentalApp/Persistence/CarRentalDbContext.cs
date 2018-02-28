@@ -17,6 +17,8 @@ namespace CarRentalApp
 
         public DbSet<Feature> Features { get; set; }
 
+        public DbSet<Photo> Photos { get; set; }
+
         public CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : base(options)
         {
         }

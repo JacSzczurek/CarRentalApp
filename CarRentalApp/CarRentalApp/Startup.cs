@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarRentalApp.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -32,6 +33,12 @@ namespace CarRentalApp
             #endregion
 
             services.AddAutoMapper();
+
+            #region DependencyInjection
+
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+
+            #endregion DependencyInjection
 
 
             services.AddMvc();

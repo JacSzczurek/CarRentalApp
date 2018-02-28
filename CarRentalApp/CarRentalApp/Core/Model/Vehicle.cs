@@ -18,9 +18,14 @@ namespace CarRentalApp.Core.Model
 
         public ICollection<VehicleFeature> VehicleFeatures { get; set; }
 
+        public ICollection<Photo> Photos { get; set; }
+
+        public DateTime Creationdate { get; set; }
+
         public Vehicle()
         {
             VehicleFeatures = new Collection<VehicleFeature>();
+            Photos = new Collection<Photo>();
         }
     }
 }
