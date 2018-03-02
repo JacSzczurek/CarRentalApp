@@ -14,5 +14,7 @@ namespace CarRentalApp.Persistence
 
         Task<Vehicle> GetVehicle(int id);
 
+        Task<List<Feature>> GetAllFeatures();
+
     }
 }

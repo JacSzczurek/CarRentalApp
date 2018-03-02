@@ -10,24 +10,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApp.Controllers
 {
-    [Route("/api/makes")]
-    public class MakesController : Controller
+    [Route("api/features")]
+    public class FeaturesController : Controller
     {
         private readonly IMapper _mapper;
         private readonly IVehicleRepository _vehicleRepository;
 
-        public MakesController(IMapper mapper, IVehicleRepository vehicleRepository)
+        public FeaturesController(IMapper mapper, IVehicleRepository vehicleRepository)
         {
             _mapper = mapper;
             _vehicleRepository = vehicleRepository;
         }
-
         [HttpGet]
-        public async Task<List<MakeResource>> GetMakesAsync()
+        public async Task<List<KeyValueResource>> GetFeatures()
         {
-            var makes = await _vehicleRepository.GetMakesWithModels();
+            var features = await _vehicleRepository.GetAllFeatures();
 
-            return _mapper.Map<List<Make>, List<MakeResource>>(makes);
+            return _mapper.Map<List<Feature>, List<KeyValueResource>>(features);
         }
     }
 }

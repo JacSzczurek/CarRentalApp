@@ -42,6 +42,11 @@ namespace CarRentalApp.Persistence
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
+        public async Task<List<Feature>> GetAllFeatures()
+        {
+            return await _context.Features.ToListAsync();
+        }
+
         public async Task AddVehicle(Vehicle vehicle)
         {
             await _context.AddAsync(vehicle);
