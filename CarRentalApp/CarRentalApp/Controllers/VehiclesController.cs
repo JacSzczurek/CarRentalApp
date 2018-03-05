@@ -25,11 +25,11 @@ namespace CarRentalApp.Controllers
         }
 
         [HttpGet]
-        public async Task<List<VehicleResource>> GetVehicles()
+        public async Task<QueryResultResource<VehicleResource>> GetVehicles(VehicleQuery filtersQuery)
         {
-            var vehicles = await _vehicleRepository.GetAllVehicles();
+            var vehicles = await _vehicleRepository.GetVehicles(filtersQuery);
 
-            return _mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
+            return _mapper.Map<QueryResult<Vehicle>, QueryResultResource<VehicleResource>>(vehicles);
         }
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from "../../services/vehicles.service";
-import { Vehicle, SaveVehicle, KeyValueResource } from "../../models/vehicle";
+import { Vehicle, SaveVehicle, KeyValueResource, Make } from "../../models/vehicle";
 
 @Component({
     selector: 'vehicle-list',
@@ -12,9 +12,14 @@ import { Vehicle, SaveVehicle, KeyValueResource } from "../../models/vehicle";
 export class VehicleListComponent implements OnInit {
 
     vehicles: Vehicle[];
-    makes: any[];
+    makes: Make[];
     models: KeyValueResource[];
-    filter: any = {};
+    features: KeyValueResource[];
+    selectedFeatures: any = [];
+    totalItems: number;
+    filter: any = {
+        pagesize: 5
+    };
 
     constructor(
         private vehicleService: VehicleService) {
@@ -23,6 +28,7 @@ export class VehicleListComponent implements OnInit {
 
     ngOnInit() {
         this.vehicleService.getMakes().subscribe(m => this.makes = m);
+        this.vehicleService.getFeatures().subscribe(f => this.features = f);
         console.log(this.makes);
     }
 
@@ -33,6 +39,14 @@ export class VehicleListComponent implements OnInit {
     }
 
     onFilterChange() {
+        this.vehicleService.getVehicles(this.filter).subscribe(x => {
+            this.vehicles = x.items;
+            this.totalItems = x.itemsCount;
+        });
+    }
 
-     }
+    onFeaturesChange(id: number) {
+        console.log("click");
+        this.selectedFeatures.push(id);
+    }
 }

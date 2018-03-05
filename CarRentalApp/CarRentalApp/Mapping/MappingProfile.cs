@@ -19,6 +19,7 @@ namespace CarRentalApp.Mapping
             CreateMap<Vehicle, VehicleResource>()
                 .ForMember(dest => dest.Make, opt => opt.MapFrom(source => source.Model.Make))
                 .ForMember(dest => dest.Features, opt => opt.MapFrom(source => source.VehicleFeatures.Select(vf => new KeyValueResource { Id = vf.Feature.Id, Name = vf.Feature.Name})));
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
 
             CreateMap<Make, KeyValueResource>();
             CreateMap<Model, KeyValueResource>();
@@ -38,9 +39,9 @@ namespace CarRentalApp.Mapping
                     //UPDATE FEATURES
                     var toRemoveFeatures = dest.VehicleFeatures.Where(f => !source.Features.Contains(f.FeatureId)).ToList();
 
-                    foreach (var rf in toRemoveFeatures)
+                    foreach (var vehicleFeature in toRemoveFeatures)
                     {
-                        dest.VehicleFeatures.Remove(rf);
+                        dest.VehicleFeatures.Remove(vehicleFeature);
                     }
 
                     //ADD FEATURES

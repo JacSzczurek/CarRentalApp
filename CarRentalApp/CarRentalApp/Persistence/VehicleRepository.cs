@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CarRentalApp.Controllers.Resources;
 using CarRentalApp.Core.Model;
+using CarRentalApp.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApp.Persistence
@@ -22,14 +25,27 @@ namespace CarRentalApp.Persistence
                 .Include(m => m.Models).ToListAsync();
         }
 
-        public async Task<List<Vehicle>> GetAllVehicles()
+        public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery filtersQuery)
         {
-            return await _context.Vehicles
-                .Include(s => s.VehicleFeatures)
-                    .ThenInclude(vf => vf.Feature)
-                .Include(p => p.Photos)
-                .Include(m => m.Model)
-                    .ThenInclude(m => m.Make).ToListAsync();
+            var result = new QueryResult<Vehicle>();
+            var query = GetAllVehicles();
+
+            query = query.ApplyFiltering(filtersQuery);
+
+            var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>
+            {
+                ["make"] = v => v.Model.Make.Name,
+                ["model"] = v => v.Model.Name,
+                ["id"] = v => v.Id,
+            };
+            query = query.ApplyOrdering(filtersQuery, columnsMap);
+
+            query = query.ApplyPagination(filtersQuery);
+
+            result.ItemsCount = await query.CountAsync();
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public async Task<Vehicle> GetVehicle(int id)
@@ -51,5 +67,20 @@ namespace CarRentalApp.Persistence
         {
             await _context.AddAsync(vehicle);
         }
+
+        #region Private
+
+        private IQueryable<Vehicle> GetAllVehicles()
+        {
+            return _context.Vehicles
+                .Include(s => s.VehicleFeatures)
+                .ThenInclude(vf => vf.Feature)
+                .Include(p => p.Photos)
+                .Include(m => m.Model)
+                .ThenInclude(m => m.Make).AsQueryable();
+        }
+
+        #endregion
+
     }
 }

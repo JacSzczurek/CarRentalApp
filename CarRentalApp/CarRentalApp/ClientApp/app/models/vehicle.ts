@@ -11,6 +11,12 @@ export interface Vehicle {
 
 }
 
+export interface Make {
+    id: number;
+    name: string;
+    models: KeyValueResource[];
+}
+
 export interface SaveVehicle {
     id: number;
     makeId: number;

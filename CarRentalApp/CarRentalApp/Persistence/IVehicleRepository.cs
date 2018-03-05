@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CarRentalApp.Controllers.Resources;
 using CarRentalApp.Core.Model;
 
 namespace CarRentalApp.Persistence
@@ -8,7 +9,7 @@ namespace CarRentalApp.Persistence
     {
         Task<List<Make>> GetMakesWithModels();
 
-        Task<List<Vehicle>> GetAllVehicles();
+        Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery filtersQuery);
 
         Task AddVehicle(Vehicle vehicle);
 
