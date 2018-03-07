@@ -25,10 +25,10 @@ namespace CarRentalApp.Controllers
         }
 
         [HttpGet]
-        public async Task<QueryResultResource<VehicleResource>> GetVehicles(VehicleQuery filtersQuery)
+        public async Task<QueryResultResource<VehicleResource>> GetVehicles(VehicleQueryResource filtersQuery)
         {
-            var vehicles = await _vehicleRepository.GetVehicles(filtersQuery);
-
+            var query = _mapper.Map<VehicleQueryResource, VehicleQuery>(filtersQuery);
+            var vehicles = await _vehicleRepository.GetVehicles(query);
             return _mapper.Map<QueryResult<Vehicle>, QueryResultResource<VehicleResource>>(vehicles);
         }
         [HttpPost]

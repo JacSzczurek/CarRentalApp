@@ -40,9 +40,10 @@ namespace CarRentalApp.Persistence
             };
             query = query.ApplyOrdering(filtersQuery, columnsMap);
 
+            result.ItemsCount = await query.CountAsync();
+
             query = query.ApplyPagination(filtersQuery);
 
-            result.ItemsCount = await query.CountAsync();
             result.Items = await query.ToListAsync();
 
             return result;

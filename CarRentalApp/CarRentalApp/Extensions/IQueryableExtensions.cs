@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using CarRentalApp.Controllers.Resources;
 using CarRentalApp.Core.Model;
@@ -44,6 +45,12 @@ namespace CarRentalApp.Extensions
 
             if (filterQuery.ModelId.HasValue)
                 query = query.Where(v => v.ModelId == filterQuery.ModelId);
+
+            if (filterQuery.Features.Any())
+            {
+                var filterQ = filterQuery.Features;
+                query = query.Where(q => filterQ.All(y => q.VehicleFeatures.Select(x => x.FeatureId).Contains(y)));
+            }
 
             return query;
         }

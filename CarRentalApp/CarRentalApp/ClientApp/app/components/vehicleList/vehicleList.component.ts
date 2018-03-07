@@ -18,7 +18,8 @@ export class VehicleListComponent implements OnInit {
     selectedFeatures: any = [];
     totalItems: number;
     filter: any = {
-        pagesize: 5
+        pagesize: 10,
+        features: []
     };
 
     constructor(
@@ -35,7 +36,8 @@ export class VehicleListComponent implements OnInit {
     onMakeChange() {
         var selectedMake = this.makes.find(m => m.id == this.filter.makeId);
         this.models = selectedMake ? selectedMake.models : [];
-        delete this.filter.modelId; 
+        delete this.filter.modelId;
+        this.onFilterChange();
     }
 
     onFilterChange() {
@@ -45,8 +47,21 @@ export class VehicleListComponent implements OnInit {
         });
     }
 
-    onFeaturesChange(id: number) {
-        console.log("click");
-        this.selectedFeatures.push(id);
+    onFeatureToggle(id: any, $event: any) {
+        if ($event.target.checked)
+            this.filter.features.push(id);
+        else {
+            var index = this.filter.features.indexOf(id);
+            this.filter.features.splice(index);
+        }
+        this.onFilterChange();
+    }
+
+    joinObject(a:any) {
+        var out = [];
+        for (var i = 0; i < a.length; i++) {
+            out.push(a[i]["id"]);
+        }
+        return out.join(", ");
     }
 }

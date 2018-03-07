@@ -29,20 +29,23 @@ export class VehicleService {
     }
 
     getVehicles(filter: any) {
-        return this.http.get('api/vehicles' + '?' + this.toQueryString(filter))
+        var queryString = this.toQueryString(filter,null);
+        return this.http.get('api/vehicles' + '?' + queryString)
             .map(res => res.json());
     }
 
-
-    toQueryString(obj: any) {
-        var parts = [];
-        for (var property in obj) {
-            var value = obj[property];
-            if (value != null && value != undefined) {
-                parts.push((encodeURIComponent(property) + '=' + encodeURIComponent(value)) as any);
+    toQueryString(obj : any, prefix : any): string {
+            var str = [],
+                p;
+            for (p in obj) {
+                if (obj.hasOwnProperty(p)) {
+                    var k = prefix ? prefix + "[" + p + "]" : p,
+                        v = obj[p];
+                    str.push(((v !== null && typeof v === "object") ?
+                        this.toQueryString(v, k) :
+                        encodeURIComponent(k) + "=" + encodeURIComponent(v)) as any);
+                }
             }
-        }
-
-        return parts.join('&');
+            return str.join("&");
     }
 }
