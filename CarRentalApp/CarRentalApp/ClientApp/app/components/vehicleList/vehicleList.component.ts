@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from "../../services/vehicles.service";
 import { Vehicle, SaveVehicle, KeyValueResource, Make } from "../../models/vehicle";
+import { LoadingModule } from 'ngx-loading';
 
 @Component({
     selector: 'vehicle-list',
@@ -13,12 +14,13 @@ export class VehicleListComponent implements OnInit {
 
     vehicles: Vehicle[];
     makes: Make[];
+    loading: true;
     models: KeyValueResource[];
     features: KeyValueResource[];
     selectedFeatures: any = [];
     totalItems: number;
     filter: any = {
-        pagesize: 10,
+        pageSize: 5,
         features: []
     };
 
@@ -57,11 +59,16 @@ export class VehicleListComponent implements OnInit {
         this.onFilterChange();
     }
 
-    joinObject(a:any) {
+    joinObject(a:any, attr: string) {
         var out = [];
         for (var i = 0; i < a.length; i++) {
-            out.push(a[i]["id"]);
+            out.push(a[i][attr]);
         }
         return out.join(", ");
+    }
+
+        onPageChange(page: any) {
+        this.filter.page = page;
+        this.onFilterChange();
     }
 }

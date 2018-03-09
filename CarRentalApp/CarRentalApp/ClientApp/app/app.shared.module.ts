@@ -11,6 +11,7 @@ import { CreateVehicleComponent } from "./components/createVehicle/createVehicle
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
+import { PaginationComponent } from './components/shared/pagination.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { CounterComponent } from './components/counter/counter.component';
         CreateVehicleComponent,
         CounterComponent,
         FetchDataComponent,
-        HomeComponent
+        HomeComponent,
+        PaginationComponent
     ],
     imports: [
         CommonModule,

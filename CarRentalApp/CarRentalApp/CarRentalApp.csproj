@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\components\shared\pagination.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\vehicle.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\vehicles.service.ts" />
   </ItemGroup>
