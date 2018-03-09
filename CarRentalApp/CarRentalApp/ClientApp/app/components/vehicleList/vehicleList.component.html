@@ -22,12 +22,20 @@
         </div>
     </div>
     <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th (click)="sortBy('make')">Make</th>
+            <th (click)="sortBy('model')">Model</th>
+            <th>Details</th>
+        </tr>
+        </thead>
         <tbody>
-            <tr *ngFor="let v of vehicles">
-                <td>{{ v.id}}</td>
+            <tr *ngFor="let v of vehicles; let i = index;">
+                <td>{{((filter.page - 1) * filter.pageSize) + i + 1}}</td>
                 <td>{{ v.make.name}}</td>
                 <td>{{ v.model.name}}</td>
-                <td>{{ joinObject(v.features, "name") }}</td>
+                <td>LINK</td>
             </tr>
         </tbody>
     </table>

@@ -19,7 +19,9 @@ export class VehicleListComponent implements OnInit {
     features: KeyValueResource[];
     selectedFeatures: any = [];
     totalItems: number;
+    page : number = 1;
     filter: any = {
+        page: 1,
         pageSize: 5,
         features: []
     };
@@ -39,6 +41,7 @@ export class VehicleListComponent implements OnInit {
         var selectedMake = this.makes.find(m => m.id == this.filter.makeId);
         this.models = selectedMake ? selectedMake.models : [];
         delete this.filter.modelId;
+        this.filter.page = 1;
         this.onFilterChange();
     }
 
@@ -56,6 +59,7 @@ export class VehicleListComponent implements OnInit {
             var index = this.filter.features.indexOf(id);
             this.filter.features.splice(index);
         }
+        this.filter.page = 1;
         this.onFilterChange();
     }
 
@@ -67,8 +71,18 @@ export class VehicleListComponent implements OnInit {
         return out.join(", ");
     }
 
-        onPageChange(page: any) {
+    onPageChange(page: any) {
         this.filter.page = page;
+        this.onFilterChange();
+    }
+
+    sortBy(columnName: any) {
+        if (this.filter.sortBy == columnName) {
+            this.filter.IsAscending = !this.filter.IsAscending;
+        } else {
+            this.filter.sortBy = columnName;
+            this.filter.IsAscending = true;
+        }
         this.onFilterChange();
     }
 }
