@@ -8,9 +8,10 @@ import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { VehicleListComponent } from './components/vehicleList/vehicleList.component';
 import { CreateVehicleComponent } from "./components/createVehicle/createVehicle.component";
-import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
-import { CounterComponent } from './components/counter/counter.component';
+import { ViewVehicleCompontent } from "./components/viewVehicle/viewVehicle.component";
+//import { HomeComponent } from './components/home/home.component';
+//import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
+//import { CounterComponent } from './components/counter/counter.component';
 import { PaginationComponent } from './components/shared/pagination.component';
 
 @NgModule({
@@ -19,23 +20,25 @@ import { PaginationComponent } from './components/shared/pagination.component';
         NavMenuComponent,
         VehicleListComponent,
         CreateVehicleComponent,
-        CounterComponent,
-        FetchDataComponent,
-        HomeComponent,
-        PaginationComponent
+        //CounterComponent,
+        //FetchDataComponent,
+        //HomeComponent,
+        PaginationComponent,
+        ViewVehicleCompontent
     ],
     imports: [
         CommonModule,
         HttpModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
+            { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
+            //{ path: 'home', component: HomeComponent },
+            //{ path: 'counter', component: CounterComponent },
+            //{ path: 'fetch-data', component: FetchDataComponent },
             { path: 'vehicles', component: VehicleListComponent },
             { path: 'vehicles/new', component: CreateVehicleComponent },
-            { path: '**', redirectTo: 'home' }
+            { path: 'viewVehicle/:id', component: ViewVehicleCompontent },
+            { path: '**', redirectTo: 'vehicles' }
         ])
     ]
 })

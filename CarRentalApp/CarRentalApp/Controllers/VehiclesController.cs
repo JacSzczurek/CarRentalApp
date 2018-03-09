@@ -24,6 +24,15 @@ namespace CarRentalApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVehicle(int id)
+        {
+            var vehicle = await _vehicleRepository.GetVehicle(id);
+            if (vehicle == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<Vehicle, VehicleResource>(vehicle));
+        }
         [HttpGet]
         public async Task<QueryResultResource<VehicleResource>> GetVehicles(VehicleQueryResource filtersQuery)
         {
@@ -31,6 +40,7 @@ namespace CarRentalApp.Controllers
             var vehicles = await _vehicleRepository.GetVehicles(query);
             return _mapper.Map<QueryResult<Vehicle>, QueryResultResource<VehicleResource>>(vehicles);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {

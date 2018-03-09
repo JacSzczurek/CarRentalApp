@@ -27,6 +27,10 @@ export class VehicleService {
         return this.http.put('api/vehicles/' + vehicle.id, vehicle)
             .map(res => res.json());
     }
+    getVehicle(id: any) {
+        return this.http.get('api/vehicles/' + id)
+            .map(res => res.json());
+    }
 
     getVehicles(filter: any) {
         var queryString = this.toQueryString(filter,null);

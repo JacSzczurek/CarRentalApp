@@ -35,7 +35,11 @@
                 <td>{{((filter.page - 1) * filter.pageSize) + i + 1}}</td>
                 <td>{{ v.make.name}}</td>
                 <td>{{ v.model.name}}</td>
-                <td>LINK</td>
+                <td>            
+                <a [routerLink]="['/viewVehicle', v.id]">
+                    <span class='glyphicon glyphicon-home'></span> Vehicles
+                </a>
+                    </td>
             </tr>
         </tbody>
     </table>
