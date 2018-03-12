@@ -1,3 +1,4 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
 <h1>Vehicle list</h1>
 <p>{{ filter | json }}</p> <!-- PODGLAD CO SIE DZIEJE-->
 <div class="form-group well">
@@ -43,4 +44,4 @@
             </tr>
         </tbody>
     </table>
-    <pagination [total-items]="totalItems" [page-size]="filter.pageSize" (page-changed)="onPageChange($event)"></pagination>
+<pagination [total-items]="totalItems" [page-size]="filter.pageSize" (page-changed)="onPageChange($event)"></pagination>

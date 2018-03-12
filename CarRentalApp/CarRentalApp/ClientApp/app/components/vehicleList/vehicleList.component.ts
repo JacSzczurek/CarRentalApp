@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from "../../services/vehicles.service";
 import { Vehicle, SaveVehicle, KeyValueResource, Make } from "../../models/vehicle";
-import { LoadingModule } from 'ngx-loading';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
     selector: 'vehicle-list',
@@ -27,7 +27,8 @@ export class VehicleListComponent implements OnInit {
     };
 
     constructor(
-        private vehicleService: VehicleService) {
+        private vehicleService: VehicleService,
+        private spinnerService: Ng4LoadingSpinnerService) {
 
     }
 
@@ -46,10 +47,13 @@ export class VehicleListComponent implements OnInit {
     }
 
     onFilterChange() {
+        this.spinnerService.show();
         this.vehicleService.getVehicles(this.filter).subscribe(x => {
             this.vehicles = x.items;
             this.totalItems = x.itemsCount;
+            this.spinnerService.hide();
         });
+
     }
 
     onFeatureToggle(id: any, $event: any) {
